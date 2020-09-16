@@ -1,5 +1,5 @@
 # WebServer
-* This project is to develop a simple Web server in Python that is capable of processing only one request.    
+* This project is to develop a simple Web server in Python that is capable of processing only one request.      
 1. create a connection socket when contacted by a client (browser);  
 2. receive the HTTP request from this connection;   
 3. parse the request to determine the specific file being requested;   
