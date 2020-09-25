@@ -1,7 +1,7 @@
 #
 # CPSC-471 Assignment 1
-# Add your name here
-#
+# Name: Nhat Nguyen
+# CWID: 889090841
 # Add various socket calls in various places, as required.
 # Just a hint, see the sample TCPServer.py in the book
 #
@@ -18,29 +18,39 @@ import sys                       # In order to terminate the program
 # SOCK_STREAM is used for TCP
 serverSocket = socket(AF_INET, SOCK_STREAM)
 
-#Prepare a server socket
-#Fill in start
-#Fill in end
+# Prepare a server socket
+serverHost = 'localHost'
+
+# use port 80 for HTTP
+serverPort = 2407
+
+# associate the server port number with this socket
+serverSocket.bind(('', serverPort))
+
+# wait and listen for some client to knock on the door
+serverSocket.listen(1)
 
 while True:
-    #Establish the connection
+    # Establish the connection
     print('Ready to serve...')
-    connectionSocket, addr =     #Fill in start #Fill in end
+    connectionSocket, addr = serverSocket.accept()
 
     try:
-        message =  #Fill in start #Fill in end
+        message = connectionSocket.recv(1024)
+        print(message, '::', message.split()[0], ':', message.split()[1])
 
         filename = message.split()[1]
-
         f = open(filename[1:])
 
-        outputdata = #Fill in start #Fill in end
+        # read the file and store the content in the outputdata
+        outputdata = f.read()
+        # print out the content of the output data.
+        print(outputdata)
 
-        #Send one HTTP header line into socket
-        #Fill in start
-        #Fill in end
+        # Send one HTTP header line into socket
+        connectionSocket.send('\nHTTP/1.1 200 OK\n\n'.encode())
 
-        #Send the content of the requested file to the client
+        # Send the content of the requested file to the client
         for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i].encode())
 
@@ -48,14 +58,15 @@ while True:
         connectionSocket.close()
 
     except IOError:
-        #Send response message for file not found
-        #Fill in start
-        #Fill in end
+        # Send response message for file not found
+        connectionSocket.send('HTTP/1.1 404 Not Found\n\n'.encode())
 
-        #Close client socket
-        #Fill in start
-        #Fill in end
+        # Close client socket
+        # Fill in start
+        connectionSocket.close()
+        # Fill in end
 
 serverSocket.close()
 
-sys.exit()        #Terminate the program after sending the corresponding data
+sys.exit()  # Terminate the program after sending the corresponding data
+
